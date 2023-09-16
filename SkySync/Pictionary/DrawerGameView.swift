@@ -48,7 +48,11 @@ struct DrawerGameView: View {
     var topBar: some View {
         ZStack {
             HStack {
+                Label("Score: \(manageMatch.score)", systemImage: "plus.app.fill")
+                    .bold()
+                    .font(.title2)
                 Spacer()
+                
                 Label("\(manageMatch.timeRemaining)", systemImage: "clock.fill")
                     .bold()
                     .font(.title2)
