@@ -22,10 +22,10 @@ struct ConnectScreen: View {
             // List the discovered peripherals
             List(bluetoothManager.discoveredPeripherals, id: \.identifier) { peripheral in
                 Button(action: {
-                    //bluetoothManager.connectToPeripheral(peripheral: peripheral)
+                    bluetoothManager.connect(to: peripheral)
                     // For now, assuming a successful connection.
-                    isConnected = true
-                    selectedPeripheral = peripheral
+//                    isConnected = true
+//                    selectedPeripheral = peripheral
                 }) {
                     Text("\(peripheral.name ?? "Unknown") - \(UIDevice.current.name)")
                 }
@@ -34,19 +34,28 @@ struct ConnectScreen: View {
             Spacer()
         }
         .padding()
-        .sheet(isPresented: $isConnected) {
-            ChatScreen(peripheral: selectedPeripheral, bluetoothManager: bluetoothManager)
+        .sheet(isPresented: $bluetoothManager.isConnected) {
+            ChatScreen(bluetoothManager: bluetoothManager)
         }
     }
 }
 
 struct ChatScreen: View {
-    var peripheral: CBPeripheral?
     @ObservedObject var bluetoothManager: BluetoothManager
 
     var body: some View {
-        Text("Chat with \(peripheral?.name ?? "unknown")")
+        VStack {
+            Text("Chat with \(bluetoothManager.connectedPeripheral?.name ?? "unknown")")
             // Implement the chat interface here
+            
+            Button("click to send") {
+                if let connectedPeripheral = bluetoothManager.connectedPeripheral {
+                    if let data = "you are \(String(describing: connectedPeripheral.name))".data(using: .utf8) {
+                        bluetoothManager.sendData(data: data, to: connectedPeripheral)
+                    }
+                }
+            }
+        }
     }
 }
 

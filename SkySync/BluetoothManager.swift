@@ -10,6 +10,9 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerD
     private var peripheralManager: CBPeripheralManager!
     var discoveredPeripherals: [CBPeripheral] = []
     private var readCallbacks: [(Data) -> Void] = []
+    
+    @Published var connectedPeripheral: CBPeripheral?
+    @Published var isConnected: Bool = false
 
     @Published var discoveredNames: [String] = []
 
@@ -19,7 +22,7 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerD
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
     }
 
-    // MARK: - Client Side (Central Role)
+    // MARK: Central
 
     func startScanning() {
         centralManager.scanForPeripherals(withServices: [serviceUUID], options: nil)
@@ -32,8 +35,6 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerD
     func connect(to peripheral: CBPeripheral) {
         centralManager.connect(peripheral, options: nil)
     }
-
-    // MARK: - CBCentralManagerDelegate
 
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         if central.state == .poweredOn {
@@ -52,11 +53,18 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerD
     }
 
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+        print("Connected")
+        connectedPeripheral = peripheral
+        isConnected = true
         peripheral.delegate = self
         peripheral.discoverServices([serviceUUID])
     }
+    
+    func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
+        print(error)
+    }
 
-    // MARK: - CBPeripheralDelegate
+    // MARK: Peripheral
 
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         guard let services = peripheral.services else { return }
@@ -79,6 +87,7 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerD
 
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         if let data = characteristic.value {
+            print(data)
             for callback in readCallbacks {
                 callback(data)
             }
@@ -87,15 +96,24 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerD
 
     // MARK: - Server Side (Peripheral Role)
 
-    func startAdvertising() {
-        let service = CBMutableService(type: serviceUUID, primary: true)
-        let characteristic = CBMutableCharacteristic(type: characteristicUUID, properties: .read, value: nil, permissions: .readable)
-        service.characteristics = [characteristic]
-        peripheralManager.add(service)
+        func startAdvertising() {
+            let service = CBMutableService(type: serviceUUID, primary: true)
+            
+            // Allow the characteristic to be written to by a Central
+            let characteristic = CBMutableCharacteristic(type: characteristicUUID,
+                                                         properties: [.read, .write, .notify],
+                                                         value: nil,
+                                                         permissions: [.readable, .writeable])
+            
+            service.characteristics = [characteristic]
+            peripheralManager.add(service)
 
-        peripheralManager.startAdvertising([CBAdvertisementDataLocalNameKey: "Your Device Name",
-                                            CBAdvertisementDataServiceUUIDsKey: [serviceUUID]])
-    }
+            peripheralManager.startAdvertising([CBAdvertisementDataLocalNameKey: "Your Device Name",
+                                                CBAdvertisementDataServiceUUIDsKey: [serviceUUID]])
+        }
+
+        // ... (Keep the CBPeripheralManagerDelegate unchanged)
+
 
     func stopAdvertising() {
         peripheralManager.stopAdvertising()
@@ -109,9 +127,22 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerD
         }
     }
 
+    // MARK: - CBPeripheralManagerDelegate
+
+    func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didSubscribeTo characteristic: CBCharacteristic) {
+        print("Central \(central.identifier) has subscribed to \(characteristic.uuid)")
+    }
+
+    func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFrom characteristic: CBCharacteristic) {
+        print("Central \(central.identifier) has unsubscribed from \(characteristic.uuid)")
+    }
+
     func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveRead request: CBATTRequest) {
         if request.characteristic.uuid == characteristicUUID {
-            // For demonstration, send a static string, but you can modify this
+            // Here you should respond to the read request.
+            // You have a similar function but it's for writes.
+            // The following is a dummy implementation for demonstration purposes.
+            print(request)
             request.value = "Hello from BLE!".data(using: .utf8)
             peripheralManager.respond(to: request, withResult: .success)
         }
