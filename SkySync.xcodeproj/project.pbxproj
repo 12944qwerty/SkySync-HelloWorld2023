@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		505FDE602AB5FE7A0033AF53 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505FDE5F2AB5FE7A0033AF53 /* GameView.swift */; };
+		505FDE622AB5FFC00033AF53 /* ManageMatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505FDE612AB5FFC00033AF53 /* ManageMatch.swift */; };
+		505FDE642AB601B60033AF53 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505FDE632AB601B60033AF53 /* Game.swift */; };
+		505FDE662AB60C000033AF53 /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505FDE652AB60C000033AF53 /* DrawingView.swift */; };
+		505FDE682AB626320033AF53 /* DrawerGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505FDE672AB626320033AF53 /* DrawerGameView.swift */; };
 		93730F5C2AB5F778006EB2B9 /* SkySyncApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93730F5B2AB5F778006EB2B9 /* SkySyncApp.swift */; };
 		93730F5E2AB5F778006EB2B9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93730F5D2AB5F778006EB2B9 /* ContentView.swift */; };
 		93730F602AB5F77C006EB2B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93730F5F2AB5F77C006EB2B9 /* Assets.xcassets */; };
@@ -14,6 +19,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		505FDE5F2AB5FE7A0033AF53 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		505FDE612AB5FFC00033AF53 /* ManageMatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageMatch.swift; sourceTree = "<group>"; };
+		505FDE632AB601B60033AF53 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		505FDE652AB60C000033AF53 /* DrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingView.swift; sourceTree = "<group>"; };
+		505FDE672AB626320033AF53 /* DrawerGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerGameView.swift; sourceTree = "<group>"; };
 		93730F582AB5F778006EB2B9 /* SkySync.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SkySync.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93730F5B2AB5F778006EB2B9 /* SkySyncApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkySyncApp.swift; sourceTree = "<group>"; };
 		93730F5D2AB5F778006EB2B9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -32,6 +42,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		505FDE5C2AB5FDB70033AF53 /* Pictionary */ = {
+			isa = PBXGroup;
+			children = (
+				505FDE5F2AB5FE7A0033AF53 /* GameView.swift */,
+				505FDE612AB5FFC00033AF53 /* ManageMatch.swift */,
+				505FDE632AB601B60033AF53 /* Game.swift */,
+				505FDE652AB60C000033AF53 /* DrawingView.swift */,
+				505FDE672AB626320033AF53 /* DrawerGameView.swift */,
+			);
+			path = Pictionary;
+			sourceTree = "<group>";
+		};
 		93730F4F2AB5F778006EB2B9 = {
 			isa = PBXGroup;
 			children = (
@@ -53,6 +75,7 @@
 			children = (
 				93730F5B2AB5F778006EB2B9 /* SkySyncApp.swift */,
 				93730F5D2AB5F778006EB2B9 /* ContentView.swift */,
+				505FDE5C2AB5FDB70033AF53 /* Pictionary */,
 				93730F5F2AB5F77C006EB2B9 /* Assets.xcassets */,
 				93730F612AB5F77C006EB2B9 /* Preview Content */,
 			);
@@ -137,8 +160,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				505FDE682AB626320033AF53 /* DrawerGameView.swift in Sources */,
 				93730F5E2AB5F778006EB2B9 /* ContentView.swift in Sources */,
+				505FDE642AB601B60033AF53 /* Game.swift in Sources */,
+				505FDE622AB5FFC00033AF53 /* ManageMatch.swift in Sources */,
+				505FDE662AB60C000033AF53 /* DrawingView.swift in Sources */,
 				93730F5C2AB5F778006EB2B9 /* SkySyncApp.swift in Sources */,
+				505FDE602AB5FE7A0033AF53 /* GameView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
