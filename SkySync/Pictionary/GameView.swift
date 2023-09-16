@@ -10,10 +10,34 @@ import SwiftUI
 struct GameView: View {
     @ObservedObject var manageMatch: ManageMatch
     @State var drawingGuess = ""
-    @State var enableErase = false    
+    @State var enableErase = false
+    @State var isCountdownRunning = false // Tracks whether the countdown is running
+    @State var timer: Timer? = nil
     func makeGuess() {
         // submit guess
     }
+    
+    // Function to start the countdown
+        private func startCountdown() {
+            if !isCountdownRunning {
+                // Initialize the timer
+                timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+                    manageMatch.timeRemaining -= 1 // Decrement the countdown time
+                    
+                    if manageMatch.timeRemaining <= 0 {
+                        // Stop the timer when countdown reaches zero
+                        stopCountdown()
+                    }
+                }
+                isCountdownRunning = true
+            }
+        }
+        
+        // Function to stop the countdown
+        private func stopCountdown() {
+            timer?.invalidate()
+            isCountdownRunning = false
+        }
     
     var body: some View {
         ZStack {
@@ -87,37 +111,55 @@ struct GameView: View {
         .background(Color.orange.opacity(0.5)).brightness(-0.2)
         .cornerRadius(20)
         .padding(.vertical)
-        .padding(.bottom, 40)
+        .padding(.bottom, 20)
     }
     
     var promptMessage: some View {
         VStack {
             Button() {
                 // Button action
+                startCountdown()
             } label : {
                 Label("SEND", systemImage: "paperplane.fill")
                     .font(.title2)
                     .bold()
                     .foregroundColor(Color.blue)
+                    .background(Color.white)
+                    .cornerRadius(20)
+            }
+            .padding(.bottom, 10)
+            
+            HStack {
+                Button() {
+                    manageMatch.score += 1
+                    stopCountdown()
+                    manageMatch.timeRemaining = 100
+                    DrawingView(manageMatch: manageMatch, enableErase: $enableErase).clearView()
+                } label : {
+                    Label("CORRECT", systemImage: "checkmark.bubble.fill")
+                        .font(.title2)
+                        .bold()
+                        .foregroundColor(Color.green)
+                        .background(Color.white)
+                        .cornerRadius(20)
+            }
+                
+                Button() {
+                    // Button action
+                    manageMatch.score += 1
+                    
+                
+                } label: {
+                    Label("INCORRECT", systemImage: "xmark.app.fill")
+                        .font(.title2)
+                        .bold()
+                        .foregroundColor(Color.red)
+                        .background(Color.white)
+                        .cornerRadius(20)
+                }
             }
             
-            Button() {
-                // Button action
-            } label : {
-                Label("CORRECT", systemImage: "checkmark.bubble.fill")
-                    .font(.title2)
-                    .bold()
-                    .foregroundColor(Color.green)
-            }
             
-            Button() {
-                // Button action
-            } label: {
-                Label("INCORRECT", systemImage: "xmark.app.fill")
-                    .font(.title2)
-                    .bold()
-                    .foregroundColor(Color.red)
-            }
         }
         .frame(maxWidth: .infinity)
       

@@ -9,6 +9,7 @@ import SwiftUI
 import PencilKit
 
 struct DrawingView: UIViewRepresentable {
+    @State private var canvasView = PKCanvasView()
     class Coordinator: NSObject, PKCanvasViewDelegate {
         var manageMatch: ManageMatch
         
@@ -17,11 +18,11 @@ struct DrawingView: UIViewRepresentable {
         }
         
         func canvasViewDrawingDidChange(_ canvasView: PKCanvasView) {
-            // set up canvas
+            canvasView.drawing = PKDrawing()
         }
     }
     
-    var canvasView = PKCanvasView()
+    //var canvasView = PKCanvasView()
     @ObservedObject var manageMatch: ManageMatch
     @Binding var enableErase: Bool
     
@@ -49,12 +50,15 @@ struct DrawingView: UIViewRepresentable {
 
         canvasView.tool = enableErase ? PKEraserTool(.vector) : PKInkingTool(.pen, color: .black, width: 6)
     }
+    
+    func clearView() {
+        canvasView.drawing = PKDrawing()
+    }
 }
 
 struct DrawingView_Previews: PreviewProvider {
     @State static var erase = false
     static var previews: some View {
-        
         DrawingView(manageMatch: ManageMatch(), enableErase: $erase)
     }
 }
