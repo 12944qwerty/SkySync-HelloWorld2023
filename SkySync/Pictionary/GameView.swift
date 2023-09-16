@@ -10,8 +10,7 @@ import SwiftUI
 struct GameView: View {
     @ObservedObject var manageMatch: ManageMatch
     @State var drawingGuess = ""
-    @State var enableErase = false
-
+    @State var enableErase = false    
     func makeGuess() {
         // submit guess
     }
@@ -89,20 +88,32 @@ struct GameView: View {
     
     var promptMessage: some View {
         VStack {
-            // Need a button
-            Label("SEND", systemImage: "paperplane.fill")
-                .font(.title2)
-                .bold()
-                .foregroundColor(Color.blue)
+            Button() {
+                // Button action
+            } label : {
+                Label("SEND", systemImage: "paperplane.fill")
+                    .font(.title2)
+                    .bold()
+                    .foregroundColor(Color.blue)
+            }
             
-            Label("CORRECT", systemImage: "checkmark.bubble.fill")
-                .font(.title2)
-                .bold()
-                .foregroundColor(Color.green)
-            Label("INCORRECT", systemImage: "xmark.app.fill")
-                .font(.title2)
-                .bold()
-                .foregroundColor(Color.red)
+            Button() {
+                // Button action
+            } label : {
+                Label("CORRECT", systemImage: "checkmark.bubble.fill")
+                    .font(.title2)
+                    .bold()
+                    .foregroundColor(Color.green)
+            }
+            
+            Button() {
+                // Button action
+            } label: {
+                Label("INCORRECT", systemImage: "xmark.app.fill")
+                    .font(.title2)
+                    .bold()
+                    .foregroundColor(Color.red)
+            }
         }
         .frame(maxWidth: .infinity)
       

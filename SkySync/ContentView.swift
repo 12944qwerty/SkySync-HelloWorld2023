@@ -10,7 +10,11 @@ import SwiftUI
 struct ContentView: View {
     @StateObject var manageMatch = ManageMatch()
     var body: some View {
+
         GameView(manageMatch: ManageMatch())
+        VStack {
+        }
+        .padding()
     }
 }
 

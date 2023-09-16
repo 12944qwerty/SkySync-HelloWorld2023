@@ -46,6 +46,8 @@ struct DrawingView: UIViewRepresentable {
                 // When enableErase is false, use the pen tool (black color and a width of 6)
                 canvasView.tool = PKInkingTool(.pen, color: .black, width: 6)
             }
+
+        canvasView.tool = enableErase ? PKEraserTool(.vector) : PKInkingTool(.pen, color: .black, width: 6)
     }
 }
 
