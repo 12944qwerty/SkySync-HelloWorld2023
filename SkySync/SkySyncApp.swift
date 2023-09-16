@@ -34,7 +34,7 @@ struct ConnectScreen: View {
             Spacer()
         }
         .padding()
-        .sheet(isPresented: $bluetoothManager.isConnected) {
+        .sheet(isPresented: $bluetoothManager.centralConnected) {
             ChatScreen(bluetoothManager: bluetoothManager)
         }
     }
@@ -50,7 +50,7 @@ struct ChatScreen: View {
             
             Button("click to send") {
                 if let connectedPeripheral = bluetoothManager.connectedPeripheral {
-                    if let data = "you are \(String(describing: connectedPeripheral.name))".data(using: .utf8) {
+                    if let data = "I am a message being sent".data(using: .utf8) {
                         bluetoothManager.sendData(data: data, to: connectedPeripheral)
                     }
                 }
