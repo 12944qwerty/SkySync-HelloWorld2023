@@ -8,10 +8,21 @@
 import SwiftUI
 
 struct ChatView: View {
-    @AppStorage("username") var username: String = ""
+    @AppStorage("username") var username: String = "Krish"
     @State var messages: [String: [Message]]
     
     @State var withUser: String
+    
+    @State var newMessage = ""
+    
+    func sendMessage() {
+        if newMessage.count > 0 {
+            let message = Message(author: username, message: newMessage)
+            messages[withUser]?.append(message)
+            newMessage = ""
+        }
+    }
+    
     var body: some View {
         VStack {
             ScrollView {
@@ -21,12 +32,22 @@ struct ChatView: View {
                         
                         MessageBubble(username: username, author: message.author, message: message.message)
                             .padding(.bottom, isSameAuthor ? 5 : 15)
-    }
-}
+                    }
+                }
             }
-
-        }
-        }
+            
+            HStack {
+                TextField("Message", text: $newMessage)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding(.horizontal, 10)
+                    .submitLabel(.send)
+                    .onSubmit(sendMessage)
+                
+                Button(action: sendMessage) {
+                    Label("", systemImage: "paperplane.fill")
+                }
+            }
+            .padding(.horizontal, 10)
         }
         .navigationTitle(Text(withUser + " vs " + username))
     }
