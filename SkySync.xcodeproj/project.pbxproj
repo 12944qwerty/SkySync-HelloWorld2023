@@ -13,6 +13,7 @@
 		93730F632AB5F77C006EB2B9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93730F622AB5F77C006EB2B9 /* Preview Assets.xcassets */; };
 		93730F6B2AB5FD35006EB2B9 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93730F6A2AB5FD35006EB2B9 /* ChatView.swift */; };
 		93730F6D2AB5FD49006EB2B9 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93730F6C2AB5FD49006EB2B9 /* MessageBubble.swift */; };
+		93730F6F2AB6017A006EB2B9 /* ChatBubbleShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93730F6E2AB6017A006EB2B9 /* ChatBubbleShape.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		93730F622AB5F77C006EB2B9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		93730F6A2AB5FD35006EB2B9 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		93730F6C2AB5FD49006EB2B9 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
+		93730F6E2AB6017A006EB2B9 /* ChatBubbleShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubbleShape.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,7 @@
 			children = (
 				93730F6A2AB5FD35006EB2B9 /* ChatView.swift */,
 				93730F6C2AB5FD49006EB2B9 /* MessageBubble.swift */,
+				93730F6E2AB6017A006EB2B9 /* ChatBubbleShape.swift */,
 			);
 			path = ChatApp;
 			sourceTree = "<group>";
@@ -152,6 +155,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				93730F5E2AB5F778006EB2B9 /* ContentView.swift in Sources */,
+				93730F6F2AB6017A006EB2B9 /* ChatBubbleShape.swift in Sources */,
 				93730F6B2AB5FD35006EB2B9 /* ChatView.swift in Sources */,
 				93730F5C2AB5F778006EB2B9 /* SkySyncApp.swift in Sources */,
 				93730F6D2AB5FD49006EB2B9 /* MessageBubble.swift in Sources */,
@@ -286,6 +290,8 @@
 				DEVELOPMENT_TEAM = KYZSZP83JV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = SkySync;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -315,6 +321,8 @@
 				DEVELOPMENT_TEAM = KYZSZP83JV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = SkySync;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
