@@ -13,7 +13,7 @@ enum Side {
 }
 
 struct MessageBubble: View {
-    @AppStorage("username") var username: String = ""
+    @State var username: String
     @State var author: String
     @State var message: String
     
@@ -47,8 +47,8 @@ struct MessageBubble: View {
 struct MessageBubble_Previews: PreviewProvider {
     static var previews: some View {
         VStack(spacing: 0) {
-            MessageBubble(author: "Krish", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ut semper quam. Phasellus non mauris sem. Donec sed fermentum eros. Donec pretium nec turpis a semper.")
-            MessageBubble(author: "Rick", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ut semper quam. Phasellus non mauris sem. Donec sed fermentum eros. Donec pretium nec turpis a semper.")
+            MessageBubble(username: "Krish", author: "Krish", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ut semper quam. Phasellus non mauris sem. Donec sed fermentum eros. Donec pretium nec turpis a semper.")
+            MessageBubble(username: "Krish", author: "Rick", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ut semper quam. Phasellus non mauris sem. Donec sed fermentum eros. Donec pretium nec turpis a semper.")
         }
     }
 }
