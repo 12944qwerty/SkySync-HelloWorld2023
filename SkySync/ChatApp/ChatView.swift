@@ -20,7 +20,7 @@ struct ChatView: View {
             messages.append(message)
             
             if let connectedPeripheral = bluetoothManager.connectedPeripheral {
-                bluetoothManager.sendMessage("\(UIDevice.current.identifierForVendor!.uuidString)|:|\(newMessage)", to: connectedPeripheral)
+                bluetoothManager.sendMessage("chatapp|:|\(UIDevice.current.identifierForVendor!.uuidString)|:|\(newMessage)", to: connectedPeripheral)
             }
             newMessage = ""
         }
@@ -56,10 +56,12 @@ struct ChatView: View {
             bluetoothManager.addReadCallback(id: "chatapp") { data in
                 let message = String(data: data, encoding: .utf8)!
                 
-                print("received a message \(message)")
+                if String(message.split(separator: "|:|")[0]) != "chatapp" {
+                    return
+                }
                 
-                let author = String(message.split(separator: "|:|")[0])
-                let msg = String(message.split(separator: "|:|")[1])
+                let author = String(message.split(separator: "|:|")[1])
+                let msg = String(message.split(separator: "|:|")[2])
                 
                 self.messages.append(Message(author: author, message: msg))
             }
