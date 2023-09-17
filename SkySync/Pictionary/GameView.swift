@@ -57,21 +57,24 @@ struct GameView: View {
                         VStack {
                             HStack {
                                 Spacer()
-                                if (manageMatch.currentlyDrawing) {
                                     Button {
                                         enableErase.toggle()
                                     } label: {
                                         Image(systemName: enableErase ? "eraser.fill" : "eraser")
                                             .font(.title)
                                             .foregroundColor(Color.black)
-                                            .padding(.top, 10)
+                                            .padding(23)
                                     }
-                                }
                             }
                             Spacer()
                         }
                         .padding()
                     }
+                    ColorPicker("Select a Color", selection: .constant(.black))
+                        .padding()
+                        .background(Color.white).opacity(0.9)
+                        .cornerRadius(20)
+                        .padding(5)
                     pastGuesses
                     promptMessage
                 }

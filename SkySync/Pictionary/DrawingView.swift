@@ -12,6 +12,7 @@ struct DrawingView: UIViewRepresentable {
     @Binding var enableErase: Bool
     @ObservedObject var manageMatch: ManageMatch
     
+    
     func makeUIView(context: Context) -> PKCanvasView {
         let canvasView = PKCanvasView()
         canvasView.drawingPolicy = .anyInput
@@ -21,6 +22,7 @@ struct DrawingView: UIViewRepresentable {
     
     func updateUIView(_ uiView: PKCanvasView, context: Context) {
         // handle user update
+        print(uiView.drawing.dataRepresentation())
         if enableErase {
                 // When enableErase is true, use the eraser tool (clear color and a width of 20)
                 uiView.tool = PKEraserTool(.bitmap)
@@ -29,7 +31,8 @@ struct DrawingView: UIViewRepresentable {
                 uiView.tool = PKInkingTool(.pen, color: .black, width: 6)
             }
         
-        let drawingData = uiView.drawing.dataRepresentation()
+        // Stores PKCanvas drawing
+       // let drawingData = //print(uiView.drawing.dataRepresentation())
         
     }
 }
