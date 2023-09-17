@@ -17,10 +17,12 @@ struct ContentView: View {
                     Text("SkySync")
                         .font(.largeTitle)
                         .padding(.top)
-                    
-                    Spacer()
+                        .bold()
+                    Image("AppIconHome")
+                        .cornerRadius(10)
                 }
                 .padding()
+                
                 
                 NavigationLink {
                     if bluetoothManager.isConnected {
@@ -32,6 +34,7 @@ struct ContentView: View {
                     Text("Chat")
                         .frame(minWidth: 200)
                         .padding(10)
+                        .bold()
                         .background(Color.blue)
                         .foregroundColor(.white)
                         .cornerRadius(10)
