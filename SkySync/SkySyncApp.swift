@@ -10,8 +10,6 @@ import CoreBluetooth
 
 struct ConnectScreen: View {
     @ObservedObject var bluetoothManager: BluetoothManager
-    @State var selectedPeripheral: CBPeripheral?
-    @State var isConnected: Bool = false
 
     var body: some View {
         VStack(spacing: 20) {
@@ -22,10 +20,8 @@ struct ConnectScreen: View {
             // List the discovered peripherals
             List(bluetoothManager.discoveredPeripherals, id: \.identifier) { peripheral in
                 Button(action: {
-                    bluetoothManager.connect(to: peripheral)
-                    // For now, assuming a successful connection.
-//                    isConnected = true
-//                    selectedPeripheral = peripheral
+                    bluetoothManager.isConnected = true
+                    bluetoothManager.connectedPeripheral = peripheral
                 }) {
                     Text("\(peripheral.name ?? "Unknown") - \(UIDevice.current.name)")
                 }
@@ -45,14 +41,13 @@ struct ChatScreen: View {
 
     var body: some View {
         VStack {
-            Text("Chat with \(bluetoothManager.connectedPeripheral?.name ?? "unknown")")
+            Text("Chatting with \(bluetoothManager.connectedPeripheral?.name ?? "unknown")")
             // Implement the chat interface here
             
             Button("click to send") {
                 if let connectedPeripheral = bluetoothManager.connectedPeripheral {
-                    if let data = "you are \(String(describing: connectedPeripheral.name))".data(using: .utf8) {
-                        bluetoothManager.sendData(data: data, to: connectedPeripheral)
-                    }
+                    print("clicked send")
+                    bluetoothManager.sendMessage("you are \(String(describing: connectedPeripheral.name)) \(Int.random(in: 1...100))", to: connectedPeripheral)
                 }
             }
         }

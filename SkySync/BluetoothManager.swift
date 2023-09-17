@@ -2,22 +2,30 @@ import Foundation
 import CoreBluetooth
 
 class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerDelegate, CBPeripheralDelegate, ObservableObject {
-
+    var userName: String
+    
     private let serviceUUID = CBUUID(string: "F54BDA68-017A-4A83-A23D-76E2F1C20E1E")
     private let characteristicUUID = CBUUID(string: "E4870E58-A740-489F-8AC8-41A6A6D3DBE8")
 
     private var centralManager: CBCentralManager!
     private var peripheralManager: CBPeripheralManager!
-    var discoveredPeripherals: [CBPeripheral] = []
-    private var readCallbacks: [(Data) -> Void] = []
+    private var readCallbacks: [String: (Data) -> Void] = [:]
+    
+    private var queue: [String] = []
+    
+    var timer: Timer!
     
     @Published var connectedPeripheral: CBPeripheral?
     @Published var isConnected: Bool = false
+    
+    @Published var discoveredPeripherals: [CBPeripheral] = []
+    @Published var discoveredNames: [UUID:String] = [:]
 
-    @Published var discoveredNames: [String] = []
-
-    override init() {
+    init(_ userName: String) {
+        self.userName = userName
+        
         super.init()
+        
         centralManager = CBCentralManager(delegate: self, queue: nil)
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
     }
@@ -44,21 +52,18 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerD
 
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         if !discoveredPeripherals.contains(where: { $0.identifier == peripheral.identifier }) {
+            print("DEBUG: Device found - \(peripheral.name)")
+            
             discoveredPeripherals.append(peripheral)
-            if let name = peripheral.name {
-                discoveredNames.append(name)
-                print("DEBUG: Device found - \(name)")
-            }
+            print(advertisementData)
+            print(advertisementData[CBAdvertisementDataLocalNameKey] as? String ?? "unknown")
+            discoveredNames[peripheral.identifier] = advertisementData[CBAdvertisementDataLocalNameKey] as? String
         }
     }
 
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        print("Connected")
-        connectedPeripheral = peripheral
-        isConnected = true
-        
         peripheral.delegate = self
-        peripheral.discoverServices([serviceUUID])
+        peripheral.discoverServices(nil)
     }
     
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
@@ -80,17 +85,8 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerD
         guard let characteristics = service.characteristics else { return }
         for characteristic in characteristics {
             if characteristic.uuid == characteristicUUID {
-                // Read value if needed
-                 peripheral.readValue(for: characteristic)
-            }
-        }
-    }
-
-    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
-        if let data = characteristic.value {
-            print(String(data: data, encoding: .utf8))
-            for callback in readCallbacks {
-                callback(data)
+                let data = queue.popLast()?.data(using: .utf8)
+                peripheral.writeValue(data!, for: characteristic, type: CBCharacteristicWriteType.withResponse)
             }
         }
     }
@@ -109,8 +105,10 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerD
         service.characteristics = [characteristic]
         peripheralManager.add(service)
 
-        peripheralManager.startAdvertising([CBAdvertisementDataLocalNameKey: "Your Device Name",
-                                            CBAdvertisementDataServiceUUIDsKey: [serviceUUID]])
+        peripheralManager.startAdvertising([
+            CBAdvertisementDataServiceUUIDsKey: [serviceUUID],
+            CBAdvertisementDataLocalNameKey: userName
+        ])
     }
 
         // ... (Keep the CBPeripheralManagerDelegate unchanged)
@@ -131,43 +129,37 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerD
         }
     }
 
-    func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didSubscribeTo characteristic: CBCharacteristic) {
-        print("Central \(central.identifier) has subscribed to \(characteristic.uuid)")
-    }
-
-    func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFrom characteristic: CBCharacteristic) {
-        print("Central \(central.identifier) has unsubscribed from \(characteristic.uuid)")
-    }
-
     func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveRead request: CBATTRequest) {
+        print("Received read request")
         if request.characteristic.uuid == characteristicUUID {
             // When you click on another phone, this is called. This sends to them right after that.
-            request.value = "Hello there ".data(using: .utf8)
-                      
             peripheralManager.respond(to: request, withResult: .success)
         }
     }
-    func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveWrite request: CBATTRequest) {
-        print(request)
-        if request.characteristic.uuid == characteristicUUID {
-            print("didwrite")
-            request.value = "didReceiveWrite".data(using: .utf8)
-            print(request.value)
-            print(request.characteristic.value)
+    func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveWrite requests: [CBATTRequest]) {
+        print("Received write request \(Int.random(in: 1...100))")
+        for request in requests {
+            if let value = request.value {
+                for (_, callback) in readCallbacks {
+                    callback(value)
+                }
+            }
             peripheralManager.respond(to: request, withResult: .success)
         }
     }
 
     // MARK: - General Utility Functions
 
-    func addReadCallback(callback: @escaping (Data) -> Void) {
-        readCallbacks.append(callback)
+    func addReadCallback(id: String, callback: @escaping (Data) -> Void) {
+        readCallbacks[id] = callback
+    }
+    
+    func removeReadCallback(id: String) {
+        readCallbacks.removeValue(forKey: id)
     }
 
-    func sendData(data: Data, to peripheral: CBPeripheral) {
-        guard let characteristic = peripheral.services?.first(where: { $0.uuid == serviceUUID })?.characteristics?.first(where: { $0.uuid == characteristicUUID }) else {
-            return
-        }
-        peripheral.writeValue(data, for: characteristic, type: .withResponse)
+    func sendMessage(_ message: String, to peripheral: CBPeripheral) {
+        queue.insert(message, at: 0)
+        centralManager.connect(peripheral, options: nil)
     }
 }
