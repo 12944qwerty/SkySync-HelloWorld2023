@@ -11,8 +11,6 @@ import PencilKit
 struct DrawingView: UIViewRepresentable {
     @Binding var enableErase: Bool
     @ObservedObject var manageMatch: ManageMatch
-
-
     
     func makeUIView(context: Context) -> PKCanvasView {
         let canvasView = PKCanvasView()
@@ -30,6 +28,9 @@ struct DrawingView: UIViewRepresentable {
             // When enableErase is false, use the pen tool (black color and a width of 6)
                 uiView.tool = PKInkingTool(.pen, color: .black, width: 6)
             }
+        
+        let drawingData = uiView.drawing.dataRepresentation()
+        
     }
 }
 
