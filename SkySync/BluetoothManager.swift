@@ -7,10 +7,9 @@
 
 import Foundation
 import CoreBluetooth
+import SwiftUI
 
 class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerDelegate, CBPeripheralDelegate, ObservableObject {
-    var userName: String
-    
     private let serviceUUID = CBUUID(string: "F54BDA68-017A-4A83-A23D-76E2F1C20E1E")
     private let characteristicUUID = CBUUID(string: "E4870E58-A740-489F-8AC8-41A6A6D3DBE8")
 
@@ -26,11 +25,8 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerD
     @Published var isConnected: Bool = false
     
     @Published var discoveredPeripherals: [CBPeripheral] = []
-    @Published var discoveredNames: [UUID:String] = [:]
 
-    init(_ userName: String) {
-        self.userName = userName
-        
+    override init() {
         super.init()
         
         centralManager = CBCentralManager(delegate: self, queue: nil)
@@ -58,11 +54,14 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerD
     }
 
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-        if !discoveredPeripherals.contains(where: { $0.identifier == peripheral.identifier }) {
-            print("DEBUG: Device found - \(peripheral.name ?? "")")
-            
-            discoveredPeripherals.append(peripheral)
-            discoveredNames[peripheral.identifier] = advertisementData[CBAdvertisementDataLocalNameKey] as? String
+        if let serviceUUIDS = advertisementData[CBAdvertisementDataServiceUUIDsKey] as? [CBUUID] {
+            if serviceUUIDS[0].uuidString == serviceUUID.uuidString {
+                if !discoveredPeripherals.contains(where: { $0.identifier == peripheral.identifier }) {
+                    print("DEBUG: Device found - \(peripheral.name ?? "")")
+                    
+                    discoveredPeripherals.append(peripheral)
+                }
+            }
         }
     }
 
@@ -96,6 +95,12 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerD
             }
         }
     }
+    
+    func peripheral(_ peripheral: CBPeripheral, didModifyServices invalidatedServices: [CBService]) {
+        print("something?")
+        print(invalidatedServices)
+    }
+
 
     // MARK: - Server Side (Peripheral Role)
 
@@ -112,8 +117,7 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerD
         peripheralManager.add(service)
 
         peripheralManager.startAdvertising([
-            CBAdvertisementDataServiceUUIDsKey: [serviceUUID],
-            CBAdvertisementDataLocalNameKey: userName
+            CBAdvertisementDataServiceUUIDsKey: [serviceUUID]
         ])
     }
 
@@ -136,7 +140,7 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerD
     }
 
     func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveWrite requests: [CBATTRequest]) {
-        print("DEBUG: Received message. \(Int.random(in: 1...1000))")
+        print("DEBUG: Received message. \(Int.random(in: 1...10000))")
         for request in requests {
             if let value = request.value {
                 for (_, callback) in readCallbacks {

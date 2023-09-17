@@ -8,17 +8,20 @@
 import SwiftUI
 
 struct ChatView: View {
-    @AppStorage("username") var username: String = "Krish"
-    @State var messages: [String: [Message]]
+    @EnvironmentObject var bluetoothManager: BluetoothManager
     
-    @State var withUser: String
+    @State var messages: [Message] = []
     
     @State var newMessage = ""
     
     func sendMessage() {
         if newMessage.count > 0 {
-            let message = Message(author: username, message: newMessage)
-            messages[withUser]?.append(message)
+            let message = Message(author: UIDevice.current.identifierForVendor!.uuidString, message: newMessage)
+            messages.append(message)
+            
+            if let connectedPeripheral = bluetoothManager.connectedPeripheral {
+                bluetoothManager.sendMessage("\(UIDevice.current.identifierForVendor!.uuidString)|:|\(newMessage)", to: connectedPeripheral)
+            }
             newMessage = ""
         }
     }
@@ -27,10 +30,10 @@ struct ChatView: View {
         VStack {
             ScrollView {
                 VStack(spacing: 0) {
-                    ForEach(messages[withUser] ?? [Message](), id: \.self) { message in
-                        let isSameAuthor = messages[withUser]?.after(message)?.author == message.author
+                    ForEach(messages, id: \.self) { message in
+                        let isSameAuthor = messages.after(message)?.author == message.author
                         
-                        MessageBubble(username: username, author: message.author, message: message.message)
+                        MessageBubble(author: message.author, message: message.message)
                             .padding(.bottom, isSameAuthor ? 5 : 15)
                     }
                 }
@@ -49,28 +52,23 @@ struct ChatView: View {
             }
             .padding(.horizontal, 10)
         }
-        .navigationTitle(Text(withUser + " vs " + username))
+        .onAppear {
+            bluetoothManager.addReadCallback(id: "chatapp") { data in
+                let message = String(data: data, encoding: .utf8)!
+                
+                print("received a message \(message)")
+                
+                let author = String(message.split(separator: "|:|")[0])
+                let msg = String(message.split(separator: "|:|")[1])
+                
+                self.messages.append(Message(author: author, message: msg))
+            }
+        }
+        .navigationTitle(Text(bluetoothManager.connectedPeripheral?.name ?? "unknown"))
     }
 }
 
 struct Message: Hashable {
     var author: String
     var message: String
-}
-
-struct ChatView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-//            NavigationLink("hi") {
-                ChatView(messages: [
-                    "Rick": [
-                        Message(author: "Krish", message: "Hello!!"),
-                        Message(author: "Rick",
-                                message: "Hello there!"),
-                        Message(author: "Rick", message: "How are you!")
-                    ]
-                ], withUser: "Rick")
-//            }
-        }
-    }
 }

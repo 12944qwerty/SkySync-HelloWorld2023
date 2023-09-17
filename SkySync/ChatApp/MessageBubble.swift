@@ -13,12 +13,10 @@ enum Side {
 }
 
 struct MessageBubble: View {
-    @State var username: String
     @State var author: String
     @State var message: String
     
-    var side: Side {
-        username == author ? .right : .left
+    var side: Side { UIDevice.current.identifierForVendor!.uuidString == author ? .right : .left
     }
     
     var body: some View {
@@ -46,9 +44,9 @@ struct MessageBubble: View {
 
 struct MessageBubble_Previews: PreviewProvider {
     static var previews: some View {
-        VStack(spacing: 0) {
-            MessageBubble(username: "Krish", author: "Krish", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ut semper quam. Phasellus non mauris sem. Donec sed fermentum eros. Donec pretium nec turpis a semper.")
-            MessageBubble(username: "Krish", author: "Rick", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ut semper quam. Phasellus non mauris sem. Donec sed fermentum eros. Donec pretium nec turpis a semper.")
+        VStack(spacing: 15) {
+            MessageBubble(author: "8F691855-6AA4-41DA-8F7D-446C940A6DC5", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ut semper quam. Phasellus non mauris sem. Donec sed fermentum eros. Donec pretium nec turpis a semper.")
+            MessageBubble(author: "Rick Astley", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ut semper quam. Phasellus non mauris sem. Donec sed fermentum eros. Donec pretium nec turpis a semper.")
         }
     }
 }

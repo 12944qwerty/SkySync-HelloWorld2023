@@ -7,27 +7,7 @@
 
 import SwiftUI
 
-struct ChatScreen: View {
-    @EnvironmentObject var bluetoothManager: BluetoothManager
-    
-    var body: some View {
-        VStack {
-            Text("Chatting with \(bluetoothManager.discoveredNames[bluetoothManager.connectedPeripheral!.identifier] ?? "unknown")")
-            // Implement the chat interface here
-            
-            Button("click to send") {
-                if let connectedPeripheral = bluetoothManager.connectedPeripheral {
-                    print("clicked send")
-                    bluetoothManager.sendMessage("you are \(String(describing: connectedPeripheral.name)) \(Int.random(in: 1...100))", to: connectedPeripheral)
-                }
-            }
-        }
-    }
-}
-
-struct ContentView: View {
-    @AppStorage("username") var userName: String = ""
-    
+struct ContentView: View {    
     @EnvironmentObject var bluetoothManager: BluetoothManager
     
     var body: some View {
@@ -37,10 +17,6 @@ struct ContentView: View {
                     Text("SkySync")
                         .font(.largeTitle)
                         .padding(.top)
-
-                    TextField("Enter your name", text: $userName)
-                        .padding(10)
-                        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 1))
                     
                     Spacer()
                 }
@@ -48,7 +24,7 @@ struct ContentView: View {
                 
                 NavigationLink {
                     if bluetoothManager.isConnected {
-                        ChatScreen()
+                        ChatView()
                     } else {
                         ConnectScreen()
                     }

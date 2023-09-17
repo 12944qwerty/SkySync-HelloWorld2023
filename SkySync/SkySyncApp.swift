@@ -8,13 +8,11 @@
 import SwiftUI
 
 @main
-struct SkySyncApp: App {
-    @AppStorage("username") var userName: String = ""
-    
+struct SkySyncApp: App {    
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(BluetoothManager(userName))
+                .environmentObject(BluetoothManager())
         }
     }
 }

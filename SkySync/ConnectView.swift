@@ -17,7 +17,7 @@ struct ConnectScreen: View {
         VStack(spacing: 20) {
             // List the discovered peripherals
             List(bluetoothManager.discoveredPeripherals, id: \.identifier) { peripheral in
-                Button("\(bluetoothManager.discoveredNames[peripheral.identifier] ?? "unknown") - \(peripheral.name ?? "Unknown")") {
+                Button(peripheral.name ?? "Unknown") {
                     bluetoothManager.connectedPeripheral = peripheral
                     bluetoothManager.isConnected = true
                 }
