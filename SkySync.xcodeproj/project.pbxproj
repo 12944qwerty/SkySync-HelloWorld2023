@@ -12,6 +12,10 @@
 		93730F5E2AB5F778006EB2B9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93730F5D2AB5F778006EB2B9 /* ContentView.swift */; };
 		93730F602AB5F77C006EB2B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93730F5F2AB5F77C006EB2B9 /* Assets.xcassets */; };
 		93730F632AB5F77C006EB2B9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93730F622AB5F77C006EB2B9 /* Preview Assets.xcassets */; };
+		93730F6B2AB5FD35006EB2B9 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93730F6A2AB5FD35006EB2B9 /* ChatView.swift */; };
+		93730F6D2AB5FD49006EB2B9 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93730F6C2AB5FD49006EB2B9 /* MessageBubble.swift */; };
+		93730F6F2AB6017A006EB2B9 /* ChatBubbleShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93730F6E2AB6017A006EB2B9 /* ChatBubbleShape.swift */; };
+		93730F722AB62518006EB2B9 /* Array+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93730F712AB62518006EB2B9 /* Array+.swift */; };
 		93E0390D2AB690BC00247118 /* ConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E0390C2AB690BC00247118 /* ConnectView.swift */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +27,10 @@
 		93730F5D2AB5F778006EB2B9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		93730F5F2AB5F77C006EB2B9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		93730F622AB5F77C006EB2B9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		93730F6A2AB5FD35006EB2B9 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		93730F6C2AB5FD49006EB2B9 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
+		93730F6E2AB6017A006EB2B9 /* ChatBubbleShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubbleShape.swift; sourceTree = "<group>"; };
+		93730F712AB62518006EB2B9 /* Array+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+.swift"; sourceTree = "<group>"; };
 		93E0390C2AB690BC00247118 /* ConnectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -56,9 +64,11 @@
 		93730F5A2AB5F778006EB2B9 /* SkySync */ = {
 			isa = PBXGroup;
 			children = (
+				93730F692AB5FD24006EB2B9 /* ChatApp */,
 				20DD8AE22AB6268F009FB026 /* Info.plist */,
 				2087FEE72AB5FAA900CE2E31 /* BluetoothManager.swift */,
 				93730F5B2AB5F778006EB2B9 /* SkySyncApp.swift */,
+				93730F702AB6250D006EB2B9 /* Extensions */,
 				93730F5D2AB5F778006EB2B9 /* ContentView.swift */,
 				93E0390C2AB690BC00247118 /* ConnectView.swift */,
 				93730F5F2AB5F77C006EB2B9 /* Assets.xcassets */,
@@ -73,6 +83,24 @@
 				93730F622AB5F77C006EB2B9 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		93730F692AB5FD24006EB2B9 /* ChatApp */ = {
+			isa = PBXGroup;
+			children = (
+				93730F6A2AB5FD35006EB2B9 /* ChatView.swift */,
+				93730F6C2AB5FD49006EB2B9 /* MessageBubble.swift */,
+				93730F6E2AB6017A006EB2B9 /* ChatBubbleShape.swift */,
+			);
+			path = ChatApp;
+			sourceTree = "<group>";
+		};
+		93730F702AB6250D006EB2B9 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				93730F712AB62518006EB2B9 /* Array+.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -146,8 +174,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				93730F5E2AB5F778006EB2B9 /* ContentView.swift in Sources */,
+				93730F722AB62518006EB2B9 /* Array+.swift in Sources */,
+				93730F6F2AB6017A006EB2B9 /* ChatBubbleShape.swift in Sources */,
+				93730F6B2AB5FD35006EB2B9 /* ChatView.swift in Sources */,
 				93E0390D2AB690BC00247118 /* ConnectView.swift in Sources */,
 				93730F5C2AB5F778006EB2B9 /* SkySyncApp.swift in Sources */,
+				93730F6D2AB5FD49006EB2B9 /* MessageBubble.swift in Sources */,
 				2087FEE82AB5FAA900CE2E31 /* BluetoothManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -280,6 +312,8 @@
 				DEVELOPMENT_TEAM = FCQQU8FD9Q;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = SkySync;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_FILE = SkySync/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -311,6 +345,8 @@
 				DEVELOPMENT_TEAM = FCQQU8FD9Q;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = SkySync;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_FILE = SkySync/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
