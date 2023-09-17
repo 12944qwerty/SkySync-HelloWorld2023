@@ -27,7 +27,7 @@ struct DrawerGameView: View {
                 VStack {
                     topBar
                     ZStack {
-                        DrawingView(manageMatch: manageMatch, enableErase: $enableErase)
+                        DrawingView(enableErase: $enableErase, manageMatch: manageMatch)
                             .aspectRatio(1, contentMode: .fit)
                             .overlay(RoundedRectangle(cornerRadius: 5).stroke(.black, lineWidth: 12))
                         VStack {
@@ -63,13 +63,13 @@ struct DrawerGameView: View {
     
     var pastGuesses: some View {
         ScrollView {
-            ForEach(manageMatch.pastGuesses) { guess in
+            // Put messages between the drawer and guesser. The guesser will type their guess and the drawer will either press "Correct or Incorrect" depending on the answer. The drawer's button press will appear as a message.
                 HStack {
                     
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.bottom, 1)
-            }
+            
         }
         .padding()
         .frame(maxWidth: .infinity)
@@ -98,7 +98,8 @@ struct DrawerGameView: View {
                 
                 
                 Button {
-                    makeGuess()
+                    // Implement messaging functionality
+                    //
                 } label: {
                     Image(systemName: "chevron.right.circle.fill")
                         .font(.system(size: 50))

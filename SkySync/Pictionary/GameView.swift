@@ -6,16 +6,17 @@
 //
 
 import SwiftUI
+import PencilKit
+import Photos
 
 struct GameView: View {
+   
+    @State var drawingSize: CGSize = CGSize(width: 350, height: 80)
     @ObservedObject var manageMatch: ManageMatch
     @State var drawingGuess = ""
     @State var enableErase = false
     @State var isCountdownRunning = false // Tracks whether the countdown is running
     @State var timer: Timer? = nil
-    func makeGuess() {
-        // submit guess
-    }
     
     // Function to start the countdown
         private func startCountdown() {
@@ -50,7 +51,7 @@ struct GameView: View {
                 VStack {
                     topBar
                     ZStack {
-                        DrawingView(manageMatch: manageMatch, enableErase: $enableErase)
+                        DrawingView(enableErase: $enableErase, manageMatch: ManageMatch())
                             .aspectRatio(1, contentMode: .fit)
                             .overlay(RoundedRectangle(cornerRadius: 5).stroke(.black, lineWidth: 12))
                         VStack {
@@ -98,13 +99,12 @@ struct GameView: View {
     
     var pastGuesses: some View {
         ScrollView {
-            ForEach(manageMatch.pastGuesses) {guess in
+            // Put messages between the drawer and guesser. The guesser will type their guess and the drawer will either press "Correct or Incorrect" depending on the answer. The drawer's button press will appear as a message.
                 HStack {
-                    
+                    // Implement message functionality
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.bottom, 1)
-            }
         }
         .padding()
         .frame(maxWidth: .infinity)
@@ -118,6 +118,8 @@ struct GameView: View {
         VStack {
             Button() {
                 // Button action
+                // Send the picture to the guesser's viewer box.
+        
                 startCountdown()
             } label : {
                 Label("SEND", systemImage: "paperplane.fill")
@@ -129,12 +131,13 @@ struct GameView: View {
             }
             .padding(.bottom, 10)
             
+            
             HStack {
                 Button() {
+                    // Implement message functionality
                     manageMatch.score += 1
                     stopCountdown()
                     manageMatch.timeRemaining = 100
-                    DrawingView(manageMatch: manageMatch, enableErase: $enableErase).clearView()
                 } label : {
                     Label("CORRECT", systemImage: "checkmark.bubble.fill")
                         .font(.title2)
@@ -146,9 +149,8 @@ struct GameView: View {
                 
                 Button() {
                     // Button action
-                    manageMatch.score += 1
-                    
-                
+                    // Implement messaging functionality
+                    manageMatch.score -= 1
                 } label: {
                     Label("INCORRECT", systemImage: "xmark.app.fill")
                         .font(.title2)
@@ -158,8 +160,6 @@ struct GameView: View {
                         .cornerRadius(20)
                 }
             }
-            
-            
         }
         .frame(maxWidth: .infinity)
       

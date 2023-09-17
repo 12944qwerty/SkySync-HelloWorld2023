@@ -9,32 +9,15 @@ import SwiftUI
 import PencilKit
 
 struct DrawingView: UIViewRepresentable {
-    @State private var canvasView = PKCanvasView()
-    class Coordinator: NSObject, PKCanvasViewDelegate {
-        var manageMatch: ManageMatch
-        
-        init(manageMatch: ManageMatch) {
-            self.manageMatch = manageMatch
-        }
-        
-        func canvasViewDrawingDidChange(_ canvasView: PKCanvasView) {
-            canvasView.drawing = PKDrawing()
-        }
-    }
-    
-    //var canvasView = PKCanvasView()
-    @ObservedObject var manageMatch: ManageMatch
     @Binding var enableErase: Bool
-    
-    func makeCoordinator() -> Coordinator {
-        Coordinator(manageMatch: manageMatch)
-    }
+    @ObservedObject var manageMatch: ManageMatch
+
+
     
     func makeUIView(context: Context) -> PKCanvasView {
+        let canvasView = PKCanvasView()
         canvasView.drawingPolicy = .anyInput
         canvasView.tool = PKInkingTool(.pen, color: .black, width: 6)
-        canvasView.isUserInteractionEnabled = manageMatch.currentlyDrawing
-        canvasView.delegate = context.coordinator
         return canvasView
     }
     
@@ -42,23 +25,17 @@ struct DrawingView: UIViewRepresentable {
         // handle user update
         if enableErase {
                 // When enableErase is true, use the eraser tool (clear color and a width of 20)
-                canvasView.tool = PKEraserTool(.bitmap)
-            } else {
-                // When enableErase is false, use the pen tool (black color and a width of 6)
-                canvasView.tool = PKInkingTool(.pen, color: .black, width: 6)
+                uiView.tool = PKEraserTool(.bitmap)
+        } else {
+            // When enableErase is false, use the pen tool (black color and a width of 6)
+                uiView.tool = PKInkingTool(.pen, color: .black, width: 6)
             }
-
-        canvasView.tool = enableErase ? PKEraserTool(.vector) : PKInkingTool(.pen, color: .black, width: 6)
-    }
-    
-    func clearView() {
-        canvasView.drawing = PKDrawing()
     }
 }
 
 struct DrawingView_Previews: PreviewProvider {
     @State static var erase = false
     static var previews: some View {
-        DrawingView(manageMatch: ManageMatch(), enableErase: $erase)
+        DrawingView(enableErase: $erase, manageMatch: ManageMatch())
     }
 }
