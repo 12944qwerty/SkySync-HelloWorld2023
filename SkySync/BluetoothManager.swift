@@ -52,11 +52,9 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerD
 
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         if !discoveredPeripherals.contains(where: { $0.identifier == peripheral.identifier }) {
-            print("DEBUG: Device found - \(peripheral.name)")
+            print("DEBUG: Device found - \(peripheral.name ?? "")")
             
             discoveredPeripherals.append(peripheral)
-            print(advertisementData)
-            print(advertisementData[CBAdvertisementDataLocalNameKey] as? String ?? "unknown")
             discoveredNames[peripheral.identifier] = advertisementData[CBAdvertisementDataLocalNameKey] as? String
         }
     }
@@ -67,7 +65,7 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerD
     }
     
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
-        print(error)
+        print(error as Any)
     }
 
     // MARK: Peripheral
@@ -85,6 +83,7 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerD
         guard let characteristics = service.characteristics else { return }
         for characteristic in characteristics {
             if characteristic.uuid == characteristicUUID {
+                print("DEBUG: Sending a message")
                 let data = queue.popLast()?.data(using: .utf8)
                 peripheral.writeValue(data!, for: characteristic, type: CBCharacteristicWriteType.withResponse)
             }
@@ -129,15 +128,8 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralManagerD
         }
     }
 
-    func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveRead request: CBATTRequest) {
-        print("Received read request")
-        if request.characteristic.uuid == characteristicUUID {
-            // When you click on another phone, this is called. This sends to them right after that.
-            peripheralManager.respond(to: request, withResult: .success)
-        }
-    }
     func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveWrite requests: [CBATTRequest]) {
-        print("Received write request \(Int.random(in: 1...100))")
+        print("DEBUG: Received message. \(Int.random(in: 1...1000))")
         for request in requests {
             if let value = request.value {
                 for (_, callback) in readCallbacks {
