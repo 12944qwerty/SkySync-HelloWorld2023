@@ -8,8 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		2087FEE82AB5FAA900CE2E31 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2087FEE72AB5FAA900CE2E31 /* BluetoothManager.swift */; };
+		20DD8AEA2AB6868A009FB026 /* TicTacToeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DD8AE92AB6868A009FB026 /* TicTacToeViewModel.swift */; };
+		20DD8AEC2AB69150009FB026 /* TicTacToeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DD8AEB2AB69150009FB026 /* TicTacToeView.swift */; };
+		20DD8AEE2AB691DD009FB026 /* Connect4View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DD8AED2AB691DD009FB026 /* Connect4View.swift */; };
+		20DD8AF02AB69369009FB026 /* RockPaperScissors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DD8AEF2AB69369009FB026 /* RockPaperScissors.swift */; };
 		93730F5C2AB5F778006EB2B9 /* SkySyncApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93730F5B2AB5F778006EB2B9 /* SkySyncApp.swift */; };
-		93730F5E2AB5F778006EB2B9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93730F5D2AB5F778006EB2B9 /* ContentView.swift */; };
 		93730F602AB5F77C006EB2B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93730F5F2AB5F77C006EB2B9 /* Assets.xcassets */; };
 		93730F632AB5F77C006EB2B9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93730F622AB5F77C006EB2B9 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -17,9 +20,12 @@
 /* Begin PBXFileReference section */
 		2087FEE72AB5FAA900CE2E31 /* BluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
 		20DD8AE22AB6268F009FB026 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		20DD8AE92AB6868A009FB026 /* TicTacToeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicTacToeViewModel.swift; sourceTree = "<group>"; };
+		20DD8AEB2AB69150009FB026 /* TicTacToeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicTacToeView.swift; sourceTree = "<group>"; };
+		20DD8AED2AB691DD009FB026 /* Connect4View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Connect4View.swift; path = ../Connect4View.swift; sourceTree = "<group>"; };
+		20DD8AEF2AB69369009FB026 /* RockPaperScissors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RockPaperScissors.swift; sourceTree = "<group>"; };
 		93730F582AB5F778006EB2B9 /* SkySync.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SkySync.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93730F5B2AB5F778006EB2B9 /* SkySyncApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkySyncApp.swift; sourceTree = "<group>"; };
-		93730F5D2AB5F778006EB2B9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		93730F5F2AB5F77C006EB2B9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		93730F622AB5F77C006EB2B9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -55,9 +61,12 @@
 			isa = PBXGroup;
 			children = (
 				20DD8AE22AB6268F009FB026 /* Info.plist */,
+				20DD8AEF2AB69369009FB026 /* RockPaperScissors.swift */,
+				20DD8AED2AB691DD009FB026 /* Connect4View.swift */,
 				2087FEE72AB5FAA900CE2E31 /* BluetoothManager.swift */,
 				93730F5B2AB5F778006EB2B9 /* SkySyncApp.swift */,
-				93730F5D2AB5F778006EB2B9 /* ContentView.swift */,
+				20DD8AE92AB6868A009FB026 /* TicTacToeViewModel.swift */,
+				20DD8AEB2AB69150009FB026 /* TicTacToeView.swift */,
 				93730F5F2AB5F77C006EB2B9 /* Assets.xcassets */,
 				93730F612AB5F77C006EB2B9 /* Preview Content */,
 			);
@@ -142,9 +151,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				93730F5E2AB5F778006EB2B9 /* ContentView.swift in Sources */,
 				93730F5C2AB5F778006EB2B9 /* SkySyncApp.swift in Sources */,
+				20DD8AEC2AB69150009FB026 /* TicTacToeView.swift in Sources */,
+				20DD8AF02AB69369009FB026 /* RockPaperScissors.swift in Sources */,
+				20DD8AEA2AB6868A009FB026 /* TicTacToeViewModel.swift in Sources */,
 				2087FEE82AB5FAA900CE2E31 /* BluetoothManager.swift in Sources */,
+				20DD8AEE2AB691DD009FB026 /* Connect4View.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
