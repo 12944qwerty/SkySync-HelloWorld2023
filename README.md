@@ -1,5 +1,7 @@
 # SkySync - Making Planes Less Boring
 
+*** **First Place in Purdue's Hello World - 2023 Hackathon** ***
+
 *Developed by Krish Shah, Christopher Lee, and Caleb Buening*
 
   In this new day and age, full of AI, ML, and other new technological solutions, there remain a tragic amount of unsolved
