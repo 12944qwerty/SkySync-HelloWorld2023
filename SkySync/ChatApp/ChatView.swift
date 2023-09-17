@@ -29,12 +29,18 @@ struct ChatView: View {
     var body: some View {
         VStack {
             ScrollView {
-                VStack(spacing: 0) {
-                    ForEach(messages, id: \.self) { message in
-                        let isSameAuthor = messages.after(message)?.author == message.author
-                        
-                        MessageBubble(author: message.author, message: message.message)
-                            .padding(.bottom, isSameAuthor ? 5 : 15)
+                ScrollViewReader { proxy in
+                    VStack(spacing: 0) {
+                        ForEach(Array(messages.enumerated()), id: \.offset) { (i, message) in
+                            let isSameAuthor = messages.after(message)?.author == message.author
+                            
+                            MessageBubble(author: message.author, message: message.message)
+                                .padding(.bottom, isSameAuthor ? 5 : 15)
+                                .id(i)
+                        }
+                        .onChange(of: messages.count) { _ in
+                            proxy.scrollTo(messages.count - 1, anchor: .bottom)
+                        }
                     }
                 }
             }
