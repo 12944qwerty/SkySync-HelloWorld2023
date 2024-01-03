@@ -14,3 +14,8 @@ SkySync before your flight and take advantage of our suite of bluetooth powered 
 your wifi-connected games, so be a good, law-abiding citizen, crack open your phone, and have some fun with your flight buddies.
 
   Looking for more? Join the **Sky High Society** (coming to the app store soon) for only $6.99 / month and get access to our entire suite of games!
+
+
+### Future
+Although this repository hasn't been updated, this app is still in development and will be put onto the app store in early 2024.
+This repository is just a showcase of what our hackathon project looked like, but the actual app will be closed source for now.
